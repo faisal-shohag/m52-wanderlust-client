@@ -13,6 +13,7 @@ export function DeleteAlert({ destination }) {
       headers: {
         "content-type": "application/json",
       },
+      credentials: "include"
     });
 
     const data = await res.json();

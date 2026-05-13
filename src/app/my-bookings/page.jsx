@@ -2,16 +2,25 @@ import { BookingCancelAlert } from "@/components/BookingCancelAlert";
 import { auth } from "@/lib/auth";
 import { TrashBin } from "@gravity-ui/icons";
 import { Button } from "@heroui/react";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import Image from "next/image";
 
 const MyBookingPage = async () => {
   const session = await auth.api.getSession({
-    headers: await headers(), // you need to pass the headers object.
+    headers: await headers(), 
   });
 
+  const cookieStore = await cookies()
+  const token = cookieStore.get("jwt_token")
+
   const user = session?.user;
-  const res = await fetch(`http://localhost:5000/booking/${user?.id}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${user?.id}`, {
+    cache: "no-store",
+    headers: {
+      authorization: token.value
+    },
+    
+  });
   const bookings = await res.json();
 
   return (

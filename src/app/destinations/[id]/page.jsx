@@ -2,6 +2,7 @@ import BookingCard from "@/components/BookingCard";
 import { DeleteAlert } from "@/components/DeleteAlert";
 import { EditModal } from "@/components/EditModal";
 import { Button } from "@heroui/react";
+import { cookies } from "next/headers";
 import Image from "next/image";
 import { BiEdit } from "react-icons/bi";
 import { FaRegCalendar } from "react-icons/fa6";
@@ -9,8 +10,16 @@ import { LuMapPin } from "react-icons/lu";
 
 const DestinationDetailsPage = async ({ params }) => {
   const { id } = await params;
+  const cookieStore = await cookies()
+  const token = cookieStore.get("jwt_token")
 
-  const res = await fetch(`http://localhost:5000/destination/${id}`);
+
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${id}`, {
+    headers: {
+      authorization: token?.value
+    }
+  });
   const destination = await res.json();
 
   const { imageUrl, price, destinationName, duration, country, description } =
