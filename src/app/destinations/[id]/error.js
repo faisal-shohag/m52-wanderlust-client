@@ -1,7 +1,7 @@
 "use client";
 
 import { RefreshCcw, AlertCircle, Home } from "lucide-react";
-import Link from "next/link";
+import Link from "next/link"; 
 
 const ErrorPage = ({ error, reset }) => {
   return (
