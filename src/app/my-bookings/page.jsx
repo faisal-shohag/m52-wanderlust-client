@@ -1,25 +1,22 @@
 import { BookingCancelAlert } from "@/components/BookingCancelAlert";
 import { auth } from "@/lib/auth";
-import { TrashBin } from "@gravity-ui/icons";
-import { Button } from "@heroui/react";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 import Image from "next/image";
 
 const MyBookingPage = async () => {
   const session = await auth.api.getSession({
-    headers: await headers(), 
+    headers: await headers(),
   });
 
-  const cookieStore = await cookies()
-  const token = cookieStore.get("jwt_token")
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
 
   const user = session?.user;
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${user?.id}`, {
-    cache: "no-store",
     headers: {
-      authorization: token.value
-    },
-    
+      authorization: `Bearer ${token}`
+    }
   });
   const bookings = await res.json();
 
@@ -43,19 +40,16 @@ const MyBookingPage = async () => {
                   month: "long",
                   day: "numeric",
                 })}
-                
               </p>
 
               <p>Booking Id: {booking._id}</p>
 
-              <p className="text-3xl font-bold text-cyan-500">${booking.price}</p>
+              <p className="text-3xl font-bold text-cyan-500">
+                ${booking.price}
+              </p>
 
-              <BookingCancelAlert bookingId={booking._id}/>
-
-              
+              <BookingCancelAlert bookingId={booking._id} />
             </div>
-
-          
           </div>
         ))}
       </div>

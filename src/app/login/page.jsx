@@ -11,11 +11,10 @@ import {
   TextField,
 } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 
 const LoginPage = () => {
-  const router = useRouter()
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -29,19 +28,7 @@ const LoginPage = () => {
 
 
     if (data) {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/jwt`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(data.user)
-      })
-
-      const tokenData = await res.json()
-
-      console.log(tokenData)
-      router.push("/");
+      redirect('/')
     }
 
     if (error) {

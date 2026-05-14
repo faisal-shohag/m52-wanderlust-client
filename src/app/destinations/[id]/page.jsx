@@ -1,23 +1,21 @@
 import BookingCard from "@/components/BookingCard";
 import { DeleteAlert } from "@/components/DeleteAlert";
 import { EditModal } from "@/components/EditModal";
-import { Button } from "@heroui/react";
-import { cookies } from "next/headers";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Image from "next/image";
-import { BiEdit } from "react-icons/bi";
 import { FaRegCalendar } from "react-icons/fa6";
 import { LuMapPin } from "react-icons/lu";
 
 const DestinationDetailsPage = async ({ params }) => {
   const { id } = await params;
-  const cookieStore = await cookies()
-  const token = cookieStore.get("jwt_token")
-
-
+  const {token} = await auth.api.getToken({
+    headers: await headers()
+  })
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${id}`, {
     headers: {
-      authorization: token?.value
+      authorization: `Bearer ${token}`
     }
   });
   const destination = await res.json();
@@ -39,12 +37,12 @@ const DestinationDetailsPage = async ({ params }) => {
         width={800}
       />
 
-     <div className="flex justify-between">
+     <div className="flex justify-between gap-10">
        <div className="p-2">
         <div className="flex items-center gap-1">
           <LuMapPin /> <span>{country}</span>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between ">
           <div>
             <div>
               <h2 className="text-xl font-bold">{destinationName}</h2>
@@ -57,7 +55,7 @@ const DestinationDetailsPage = async ({ params }) => {
 
         <h1 className="mt-10 text-2xl font-bold">Overview</h1>
 
-        <p>{description}</p>
+        <p className="max-w-6xl">{description}</p>
       </div>
 
 

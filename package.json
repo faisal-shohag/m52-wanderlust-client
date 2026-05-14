@@ -14,6 +14,8 @@
     "@heroui/react": "^3.0.3",
     "@heroui/styles": "^3.0.3",
     "better-auth": "^1.6.10",
+    "jose-cjs": "^6.2.3",
+    "lucide-react": "^1.14.0",
     "mongodb": "^7.2.0",
     "next": "16.2.6",
     "react": "19.2.4",

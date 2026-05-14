@@ -15,7 +15,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-white p-5">
+  <div className="bg-white py-3">
+      <nav className="flex items-center justify-between max-w-7xl mx-auto">
       <ul className="flex gap-3">
         <li>
           <Link href={"/"}>Home</Link>
@@ -55,7 +56,7 @@ const Navbar = () => {
               </Avatar>
             </li>
             <li>
-              <Button onClick={handleSignOut} variant="danger" className={"rounded-none"}>
+              <Button size="sm" onClick={handleSignOut} variant="danger" className={"rounded-none"}>
                 Logout
               </Button>
             </li>
@@ -72,6 +73,7 @@ const Navbar = () => {
         )}
       </ul>
     </nav>
+  </div>
   );
 };
 
